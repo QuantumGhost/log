@@ -18,13 +18,16 @@ import (
 	"unsafe"
 )
 
+type ErrorMarshaller = func(e *Entry, err error)
+
 // DefaultLogger is the global logger.
 var DefaultLogger = Logger{
-	Level:      DebugLevel,
-	Caller:     0,
-	TimeField:  "",
-	TimeFormat: "",
-	Writer:     IOWriter{os.Stderr},
+	Level:           DebugLevel,
+	Caller:          0,
+	TimeField:       "",
+	TimeFormat:      "",
+	Writer:          IOWriter{os.Stderr},
+	ErrorMarshaller: nil,
 }
 
 // Entry represents a log entry. It is instanced by one of the level method of Logger and finalized by the Msg or Msgf method.
@@ -32,6 +35,7 @@ type Entry struct {
 	buf   []byte
 	Level Level
 	w     Writer
+	em    ErrorMarshaller
 }
 
 // Writer defines an entry writer interface.
@@ -106,6 +110,19 @@ type Logger struct {
 
 	// Writer specifies the writer of output. It uses a wrapped os.Stderr Writer in if empty.
 	Writer Writer
+
+	// ErrorMarshaller determines how the error stack got serialized.
+	ErrorMarshaller ErrorMarshaller
+}
+
+func defaultErrorMarshaller(e *Entry, err error) {
+	if o, ok := err.(ObjectMarshaler); ok {
+		o.MarshalObject(e)
+	} else {
+		e.buf = append(e.buf, '"')
+		e.string(err.Error())
+		e.buf = append(e.buf, '"')
+	}
 }
 
 // TimeFormatUnix defines a time format that makes time fields to be
@@ -461,10 +478,23 @@ var timeOffset, timeZone = func() (int64, string) {
 	return int64(n), s
 }()
 
+func (l *Logger) silent(level Level) bool {
+	return uint32(level) < atomic.LoadUint32((*uint32)(&l.Level))
+}
+
+func (l *Logger) getErrorMarshaller() ErrorMarshaller {
+	if l.ErrorMarshaller == nil {
+		return defaultErrorMarshaller
+	} else {
+		return l.ErrorMarshaller
+	}
+}
+
 func (l *Logger) header(level Level) *Entry {
 	e := epool.Get().(*Entry)
 	e.buf = e.buf[:0]
 	e.Level = level
+	e.em = l.getErrorMarshaller()
 	if l.Writer != nil {
 		e.w = l.Writer
 	} else {
@@ -972,13 +1002,7 @@ func (e *Entry) AnErr(key string, err error) *Entry {
 	e.buf = append(e.buf, ',', '"')
 	e.buf = append(e.buf, key...)
 	e.buf = append(e.buf, '"', ':')
-	if o, ok := err.(ObjectMarshaler); ok {
-		o.MarshalObject(e)
-	} else {
-		e.buf = append(e.buf, '"')
-		e.string(err.Error())
-		e.buf = append(e.buf, '"')
-	}
+	e.em(e, err)
 	return e
 }
 
@@ -998,9 +1022,7 @@ func (e *Entry) Errs(key string, errs []error) *Entry {
 		if err == nil {
 			e.buf = append(e.buf, "null"...)
 		} else {
-			e.buf = append(e.buf, '"')
-			e.string(err.Error())
-			e.buf = append(e.buf, '"')
+			e.em(e, err)
 		}
 	}
 	e.buf = append(e.buf, ']')
