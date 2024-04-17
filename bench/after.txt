@@ -1,0 +1,35 @@
+goos: darwin
+goarch: arm64
+pkg: github.com/phuslu/log
+BenchmarkAsyncWriter-4   	52590664	       243.5 ns/op	       0 B/op	       0 allocs/op
+BenchmarkAsyncWriter-4   	52171767	       257.7 ns/op	       0 B/op	       0 allocs/op
+BenchmarkAsyncWriter-4   	49872720	       237.6 ns/op	       0 B/op	       0 allocs/op
+BenchmarkAsyncWriter-4   	48422893	       242.9 ns/op	       0 B/op	       0 allocs/op
+BenchmarkAsyncWriter-4   	52540678	       258.5 ns/op	       0 B/op	       0 allocs/op
+BenchmarkAsyncWriter-4   	52002022	       238.6 ns/op	       0 B/op	       0 allocs/op
+BenchmarkAsyncWriter-4   	52789764	       284.0 ns/op	       0 B/op	       0 allocs/op
+BenchmarkAsyncWriter-4   	53236826	       244.7 ns/op	       0 B/op	       0 allocs/op
+BenchmarkAsyncWriter-4   	54661962	       237.9 ns/op	       0 B/op	       0 allocs/op
+BenchmarkAsyncWriter-4   	53232201	       239.4 ns/op	       0 B/op	       0 allocs/op
+BenchmarkLogger-4        	100000000	       107.3 ns/op	       0 B/op	       0 allocs/op
+BenchmarkLogger-4        	100000000	       109.5 ns/op	       0 B/op	       0 allocs/op
+BenchmarkLogger-4        	100000000	       106.1 ns/op	       0 B/op	       0 allocs/op
+BenchmarkLogger-4        	100000000	       106.4 ns/op	       0 B/op	       0 allocs/op
+BenchmarkLogger-4        	100000000	       106.4 ns/op	       0 B/op	       0 allocs/op
+BenchmarkLogger-4        	100000000	       115.0 ns/op	       0 B/op	       0 allocs/op
+BenchmarkLogger-4        	100000000	       105.4 ns/op	       0 B/op	       0 allocs/op
+BenchmarkLogger-4        	100000000	       105.6 ns/op	       0 B/op	       0 allocs/op
+BenchmarkLogger-4        	100000000	       105.8 ns/op	       0 B/op	       0 allocs/op
+BenchmarkLogger-4        	100000000	       105.5 ns/op	       0 B/op	       0 allocs/op
+BenchmarkTSVLogger-4     	226850064	        48.96 ns/op	       0 B/op	       0 allocs/op
+BenchmarkTSVLogger-4     	245381403	        48.92 ns/op	       0 B/op	       0 allocs/op
+BenchmarkTSVLogger-4     	245781954	        49.08 ns/op	       0 B/op	       0 allocs/op
+BenchmarkTSVLogger-4     	228675223	        48.81 ns/op	       0 B/op	       0 allocs/op
+BenchmarkTSVLogger-4     	245809362	        48.90 ns/op	       0 B/op	       0 allocs/op
+BenchmarkTSVLogger-4     	245422633	        52.42 ns/op	       0 B/op	       0 allocs/op
+BenchmarkTSVLogger-4     	243595977	        49.14 ns/op	       0 B/op	       0 allocs/op
+BenchmarkTSVLogger-4     	243983757	        49.13 ns/op	       0 B/op	       0 allocs/op
+BenchmarkTSVLogger-4     	243718233	        49.15 ns/op	       0 B/op	       0 allocs/op
+BenchmarkTSVLogger-4     	243949063	        49.53 ns/op	       0 B/op	       0 allocs/op
+PASS
+ok  	github.com/phuslu/log	409.919s

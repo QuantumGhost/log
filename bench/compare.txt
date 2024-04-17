@@ -1,0 +1,27 @@
+goos: darwin
+goarch: arm64
+pkg: github.com/phuslu/log
+              │ /Users/qg/workspace/foss/log/temp/before.txt │ /Users/qg/workspace/foss/log/temp/after.txt │
+              │                    sec/op                    │        sec/op         vs base               │
+AsyncWriter-4                                    259.2n ± 7%            243.2n ± 6%       ~ (p=0.063 n=10)
+Logger-4                                         106.0n ± 1%            106.3n ± 3%       ~ (p=0.361 n=10)
+TSVLogger-4                                      48.96n ± 3%            49.10n ± 1%       ~ (p=0.755 n=10)
+geomean                                          110.4n                 108.3n       -1.91%
+
+              │ /Users/qg/workspace/foss/log/temp/before.txt │ /Users/qg/workspace/foss/log/temp/after.txt │
+              │                     B/op                     │        B/op         vs base                 │
+AsyncWriter-4                                   0.000 ± 0%             0.000 ± 0%       ~ (p=1.000 n=10) ¹
+Logger-4                                        0.000 ± 0%             0.000 ± 0%       ~ (p=1.000 n=10) ¹
+TSVLogger-4                                     0.000 ± 0%             0.000 ± 0%       ~ (p=1.000 n=10) ¹
+geomean                                                    ²                       +0.00%                ²
+¹ all samples are equal
+² summaries must be >0 to compute geomean
+
+              │ /Users/qg/workspace/foss/log/temp/before.txt │ /Users/qg/workspace/foss/log/temp/after.txt │
+              │                  allocs/op                   │     allocs/op       vs base                 │
+AsyncWriter-4                                   0.000 ± 0%             0.000 ± 0%       ~ (p=1.000 n=10) ¹
+Logger-4                                        0.000 ± 0%             0.000 ± 0%       ~ (p=1.000 n=10) ¹
+TSVLogger-4                                     0.000 ± 0%             0.000 ± 0%       ~ (p=1.000 n=10) ¹
+geomean                                                    ²                       +0.00%                ²
+¹ all samples are equal
+² summaries must be >0 to compute geomean
